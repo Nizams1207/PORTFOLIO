@@ -19,6 +19,16 @@ async function loadPortfolio() {
     document.getElementById('hero-name').innerText = data.hero.name;
     document.getElementById('hero-title').innerText = data.hero.title;
     document.getElementById('footer-name').innerText = data.hero.name;
+        // HERO
+    document.getElementById('nav-logo').innerHTML = `${data.hero.name}<span>.</span>`;
+    document.getElementById('hero-name').innerText = data.hero.name;
+    document.getElementById('hero-title').innerText = data.hero.title;
+    document.getElementById('footer-name').innerText = data.hero.name;
+    
+    // TAMBAH BARIS INI UNTUK GAMBAR PROFIL
+    if(data.hero.image) {
+        document.getElementById('hero-profile-img').src = data.hero.image;
+    }
 
     // ABOUT
     document.getElementById('about-text').innerText = data.about;
