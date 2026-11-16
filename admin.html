@@ -3,68 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
+    <title>Dashboard Admin - Portfolio</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* CSS khas untuk Admin */
-        .admin-container { max-width: 800px; margin: 50px auto; padding: 20px; }
-        .admin-form { display: flex; flex-direction: column; gap: 15px; }
-        textarea { width: 100%; height: 150px; background: #12121e; color: #fff; padding: 10px; border: 1px solid #333; border-radius: 8px; font-family: monospace; }
-        .btn-save { background: #00e0ff; color: #000; padding: 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 16px; }
-        .btn-save:hover { background: #7c5cff; color: #fff; }
-        .note { background: rgba(255, 165, 0, 0.1); border-left: 4px solid orange; padding: 15px; margin-bottom: 20px; color: #ccc; }
+        /* Gaya khas untuk borang admin */
+        .admin-container { max-width: 800px; margin: 40px auto; padding: 20px; background: var(--card); border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); }
+        .admin-header { margin-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: bold; color: var(--text); }
+        .form-group input[type="text"], .form-group textarea {
+            width: 100%; padding: 12px; background: #0a0a12; color: #fff;
+            border: 1px solid #333; border-radius: 8px; font-family: inherit; font-size: 14px;
+        }
+        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--accent); }
+        .form-group textarea { height: 100px; resize: vertical; }
+        .btn-save { background: var(--accent); color: #000; padding: 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 16px; width: 100%; margin-top: 10px; transition: 0.3s; }
+        .btn-save:hover { background: var(--accent-2); color: #fff; }
+        .back-link { display: block; text-align: center; margin-top: 20px; color: var(--muted); text-decoration: none; }
+        .back-link:hover { color: var(--accent); }
     </style>
 </head>
 <body>
 
     <div class="admin-container">
-        <h1 style="color: #00e0ff; margin-bottom: 20px;">🛠️ Developer Dashboard</h1>
-        
-        <div class="note">
-            <strong>Cara Guna:</strong> Edit data dalam kotak di bawah (format JSON), kemudian klik <b>Simpan (Local)</b> untuk tengok perubahan secara terus pada browser anda. Untuk update ke GitHub Pages, copy kod yang dijana dan paste ke dalam fail <code>data.json</code> dalam VS Code.
+        <div class="admin-header">
+            <h1 style="color: var(--accent);"><i class="fas fa-edit"></i> Dashboard Admin</h1>
+            <p style="color: var(--muted); font-size: 14px;">Isi maklumat di bawah dan klik Simpan. (Nota: Ini disimpan di browser anda sahaja. Untuk update ke GitHub, sila rujuk nota di bawah).</p>
         </div>
 
-        <div class="admin-form">
-            <label style="font-weight: bold;">Edit Data Portfolio (JSON):</label>
-            <textarea id="jsonEditor"></textarea>
+        <form id="portfolioForm">
+            <div class="form-group">
+                <label>Nama Anda</label>
+                <input type="text" id="inputName" required>
+            </div>
+            <div class="form-group">
+                <label>Jawatan / Tagline</label>
+                <input type="text" id="inputTitle" required>
+            </div>
             
-            <button class="btn-save" onclick="saveData()">💾 Simpan Data ke Browser</button>
-            <a href="index.html" style="text-align: center; color: #aaa; text-decoration: none; margin-top: 10px;">⬅️ Kembali ke Laman Web</a>
-        </div>
+            <div class="form-group">
+                <label>Tentang Saya (About Me)</label>
+                <textarea id="inputAbout" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Kemahiran (Asingkan dengan koma)</label>
+                <input type="text" id="inputSkills" placeholder="Contoh: HTML, CSS, JavaScript, React" required>
+            </div>
+
+            <div class="form-group">
+                <label>Pengalaman Kerja (Tulis format: Jawatan | Syarikat | Tahun | Penerangan)</label>
+                <textarea id="inputExp" placeholder="Web Developer | Syarikat ABC | 2022-Kini | Membangunkan laman web..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Pendidikan (Tulis format: Kursus | Universiti | Tahun | Penerangan)</label>
+                <textarea id="inputEdu" placeholder="Sains Komputer | Universiti Contoh | 2017-2020 | CGPA 3.8"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Projek (Tulis format: Tajuk | Penerangan | Link)</label>
+                <textarea id="inputProj" placeholder="Sistem E-Dagang | Platform jual beli... | https://link.com"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label>Pencapaian (Asingkan setiap pencapaian dengan ENTER)</label>
+                <textarea id="inputAch" placeholder="Juara Hackathon 2021&#10;Pelajar Terbaik 2020"></textarea>
+            </div>
+
+            <button type="submit" class="btn-save">💾 Simpan Maklumat</button>
+            <a href="index.html" class="back-link">⬅️ Kembali ke Laman Web</a>
+        </form>
     </div>
 
     <script>
-        const editor = document.getElementById('jsonEditor');
-
-        // Ambil data dari Local Storage atau fail data.json asal
-        async function loadData() {
+        // Ambil data sedia ada (jika ada) untuk isi dalam borang
+        async function loadFormData() {
             let localData = localStorage.getItem('portfolioData');
+            let data;
+
             if (localData) {
-                editor.value = localData;
+                data = JSON.parse(localData);
             } else {
-                // Jika tiada dalam local storage, baca dari fail data.json
+                // Baca dari data.json kalau local storage kosong
                 try {
                     const res = await fetch('data.json');
-                    const data = await res.json();
-                    editor.value = JSON.stringify(data, null, 4);
-                } catch (e) {
-                    editor.value = "Error: Pastikan fail data.json wujud.";
-                }
+                    data = await res.json();
+                } catch (e) { return; }
+            }
+
+            // Masukkan data ke dalam borang
+            document.getElementById('inputName').value = data.hero.name;
+            document.getElementById('inputTitle').value = data.hero.title;
+            document.getElementById('inputAbout').value = data.about;
+            document.getElementById('inputSkills').value = data.skills.join(', ');
+            
+            // Format pengalaman
+            if(data.experience && data.experience[0]) {
+                let exp = data.experience[0];
+                document.getElementById('inputExp').value = `${exp.role} | ${exp.company} | ${exp.year} | ${exp.desc}`;
+            }
+            
+            // Format pendidikan
+            if(data.education && data.education[0]) {
+                let edu = data.education[0];
+                document.getElementById('inputEdu').value = `${edu.course} | ${edu.place} | ${edu.year} | ${edu.desc}`;
+            }
+
+            // Format projek
+            if(data.projects && data.projects[0]) {
+                let proj = data.projects[0];
+                document.getElementById('inputProj').value = `${proj.title} | ${proj.desc} | ${proj.link}`;
+            }
+
+            // Format pencapaian
+            if(data.achievements) {
+                document.getElementById('inputAch').value = data.achievements.join('\n');
             }
         }
 
-        function saveData() {
-            try {
-                // Uji sama ada JSON sah (valid) atau tidak
-                JSON.parse(editor.value); 
-                localStorage.setItem('portfolioData', editor.value);
-                alert('✅ Berjaya disimpan ke Browser! Klik "Kembali ke Laman Web" untuk lihat hasilnya.');
-            } catch (e) {
-                alert('❌ Ralat: Format JSON tidak sah. Sila semak ejaan anda.');
-            }
+        // Bila butang Save ditekan
+        document.getElementById('portfolioForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Elak page refresh
+
+            // Ambil nilai dari borang dan susun menjadi format JSON yang betul
+            let newData = {
+                hero: {
+                    name: document.getElementById('inputName').value,
+                    title: document.getElementById('inputTitle').value,
+                    desc: "Hai, selamat datang ke portfolio saya."
+                },
+                about: document.getElementById('inputAbout').value,
+                skills: document.getElementById('inputSkills').value.split(',').map(s => s.trim()),
+                experience: parseFormat(document.getElementById('inputExp').value, ['role', 'company', 'year', 'desc']),
+                education: parseFormat(document.getElementById('inputEdu').value, ['course', 'place', 'year', 'desc']),
+                projects: parseFormat(document.getElementById('inputProj').value, ['title', 'desc', 'link']),
+                achievements: document.getElementById('inputAch').value.split('\n').filter(a => a.trim() !== ''),
+                leadership: [] // Kosongkan buat masa ini
+            };
+
+            // Simpan ke browser
+            localStorage.setItem('portfolioData', JSON.stringify(newData));
+            
+            // Tunjuk mesej berjaya
+            alert('✅ Maklumat berjaya disimpan! Sila klik "Kembali ke Laman Web" untuk lihat hasilnya.');
+        });
+
+        // Fungsi kecil untuk pecahkan teks berdasarkan simbol '|'
+        function parseFormat(text, keys) {
+            if (!text) return [];
+            let parts = text.split('|').map(s => s.trim());
+            let obj = {};
+            keys.forEach((key, index) => {
+                obj[key] = parts[index] || "";
+            });
+            return [obj]; // Return sebagai array sebab sistem kita guna array
         }
 
-        loadData();
+        // Jalankan fungsi bila halaman dibuka
+        loadFormData();
     </script>
 </body>
 </html>
