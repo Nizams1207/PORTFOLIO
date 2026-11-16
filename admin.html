@@ -6,7 +6,6 @@
     <title>Dashboard Admin - Portfolio</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Gaya khas untuk borang admin */
         .admin-container { max-width: 800px; margin: 40px auto; padding: 20px; background: var(--card); border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); }
         .admin-header { margin-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; }
         .form-group { margin-bottom: 20px; }
@@ -28,7 +27,7 @@
     <div class="admin-container">
         <div class="admin-header">
             <h1 style="color: var(--accent);"><i class="fas fa-edit"></i> Dashboard Admin</h1>
-            <p style="color: var(--muted); font-size: 14px;">Isi maklumat di bawah dan klik Simpan. (Nota: Ini disimpan di browser anda sahaja. Untuk update ke GitHub, sila rujuk nota di bawah).</p>
+            <p style="color: var(--muted); font-size: 14px;">Isi maklumat di bawah. Untuk gambar, pastikan anda dah masukkan fail gambar ke dalam folder <b>images</b> dan taip nama failnya di sini.</p>
         </div>
 
         <form id="portfolioForm">
@@ -48,22 +47,22 @@
 
             <div class="form-group">
                 <label>Kemahiran (Asingkan dengan koma)</label>
-                <input type="text" id="inputSkills" placeholder="Contoh: HTML, CSS, JavaScript, React" required>
+                <input type="text" id="inputSkills" placeholder="Contoh: HTML, CSS, JavaScript" required>
             </div>
 
             <div class="form-group">
-                <label>Pengalaman Kerja (Tulis format: Jawatan | Syarikat | Tahun | Penerangan)</label>
+                <label>Pengalaman Kerja (Jawatan | Syarikat | Tahun | Penerangan)</label>
                 <textarea id="inputExp" placeholder="Web Developer | Syarikat ABC | 2022-Kini | Membangunkan laman web..."></textarea>
             </div>
 
             <div class="form-group">
-                <label>Pendidikan (Tulis format: Kursus | Universiti | Tahun | Penerangan)</label>
+                <label>Pendidikan (Kursus | Universiti | Tahun | Penerangan)</label>
                 <textarea id="inputEdu" placeholder="Sains Komputer | Universiti Contoh | 2017-2020 | CGPA 3.8"></textarea>
             </div>
 
             <div class="form-group">
-                <label>Projek (Tulis format: Tajuk | Penerangan | Link)</label>
-                <textarea id="inputProj" placeholder="Sistem E-Dagang | Platform jual beli... | https://link.com"></textarea>
+                <label>Projek (Tajuk | Penerangan | Link | Nama Fail Gambar)</label>
+                <textarea id="inputProj" placeholder="Sistem E-Dagang | Platform jual beli... | https://link.com | projek1.jpg"></textarea>
             </div>
             
             <div class="form-group">
@@ -77,7 +76,6 @@
     </div>
 
     <script>
-        // Ambil data sedia ada (jika ada) untuk isi dalam borang
         async function loadFormData() {
             let localData = localStorage.getItem('portfolioData');
             let data;
@@ -85,48 +83,42 @@
             if (localData) {
                 data = JSON.parse(localData);
             } else {
-                // Baca dari data.json kalau local storage kosong
                 try {
                     const res = await fetch('data.json');
                     data = await res.json();
                 } catch (e) { return; }
             }
 
-            // Masukkan data ke dalam borang
             document.getElementById('inputName').value = data.hero.name;
             document.getElementById('inputTitle').value = data.hero.title;
             document.getElementById('inputAbout').value = data.about;
             document.getElementById('inputSkills').value = data.skills.join(', ');
             
-            // Format pengalaman
             if(data.experience && data.experience[0]) {
                 let exp = data.experience[0];
                 document.getElementById('inputExp').value = `${exp.role} | ${exp.company} | ${exp.year} | ${exp.desc}`;
             }
             
-            // Format pendidikan
             if(data.education && data.education[0]) {
                 let edu = data.education[0];
                 document.getElementById('inputEdu').value = `${edu.course} | ${edu.place} | ${edu.year} | ${edu.desc}`;
             }
 
-            // Format projek
             if(data.projects && data.projects[0]) {
                 let proj = data.projects[0];
-                document.getElementById('inputProj').value = `${proj.title} | ${proj.desc} | ${proj.link}`;
+                // Tambah nama gambar jika ada
+                let imgName = proj.image ? proj.image : "";
+                document.getElementById('inputProj').value = `${proj.title} | ${proj.desc} | ${proj.link} | ${imgName}`;
             }
 
-            // Format pencapaian
             if(data.achievements) {
                 document.getElementById('inputAch').value = data.achievements.join('\n');
             }
         }
 
-        // Bila butang Save ditekan
         document.getElementById('portfolioForm').addEventListener('submit', function(e) {
-            e.preventDefault(); // Elak page refresh
+            e.preventDefault();
 
-            // Ambil nilai dari borang dan susun menjadi format JSON yang betul
             let newData = {
                 hero: {
                     name: document.getElementById('inputName').value,
@@ -137,19 +129,16 @@
                 skills: document.getElementById('inputSkills').value.split(',').map(s => s.trim()),
                 experience: parseFormat(document.getElementById('inputExp').value, ['role', 'company', 'year', 'desc']),
                 education: parseFormat(document.getElementById('inputEdu').value, ['course', 'place', 'year', 'desc']),
-                projects: parseFormat(document.getElementById('inputProj').value, ['title', 'desc', 'link']),
+                // Tambah 'image' dalam senarai keys
+                projects: parseFormat(document.getElementById('inputProj').value, ['title', 'desc', 'link', 'image']),
                 achievements: document.getElementById('inputAch').value.split('\n').filter(a => a.trim() !== ''),
-                leadership: [] // Kosongkan buat masa ini
+                leadership: []
             };
 
-            // Simpan ke browser
             localStorage.setItem('portfolioData', JSON.stringify(newData));
-            
-            // Tunjuk mesej berjaya
             alert('✅ Maklumat berjaya disimpan! Sila klik "Kembali ke Laman Web" untuk lihat hasilnya.');
         });
 
-        // Fungsi kecil untuk pecahkan teks berdasarkan simbol '|'
         function parseFormat(text, keys) {
             if (!text) return [];
             let parts = text.split('|').map(s => s.trim());
@@ -157,10 +146,9 @@
             keys.forEach((key, index) => {
                 obj[key] = parts[index] || "";
             });
-            return [obj]; // Return sebagai array sebab sistem kita guna array
+            return [obj];
         }
 
-        // Jalankan fungsi bila halaman dibuka
         loadFormData();
     </script>
 </body>

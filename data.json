@@ -34,12 +34,14 @@
     {
       "title": "Sistem E-Dagang",
       "desc": "Platform jual beli dalam talian dengan sistem pembayaran.",
-      "link": "#"
+      "link": "#",
+      "image": "projek1.jpg"
     },
     {
       "title": "Aplikasi Cuaca",
       "desc": "Aplikasi ringkas menggunakan API untuk memaparkan cuaca.",
-      "link": "#"
+      "link": "#",
+      "image": "projek2.jpg"
     }
   ],
   "achievements": [

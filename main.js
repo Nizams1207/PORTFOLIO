@@ -59,12 +59,16 @@ async function loadPortfolio() {
         skillsList.innerHTML += `<div class="card skill-card">${skill}</div>`;
     });
 
-    // PROJECTS
+    /    // PROJECTS
     const projectList = document.getElementById('project-list');
     projectList.innerHTML = '';
     data.projects.forEach(proj => {
+        // Kalau takda gambar, guna placeholder
+        let imgSrc = proj.image ? `images/${proj.image}` : 'https://via.placeholder.com/300x180?text=No+Image';
+        
         projectList.innerHTML += `
             <div class="card project-card">
+                <img src="${imgSrc}" alt="${proj.title}" class="project-image">
                 <h3>${proj.title}</h3>
                 <p>${proj.desc}</p>
                 <a href="${proj.link}" class="project-link" target="_blank">Lihat →</a>
