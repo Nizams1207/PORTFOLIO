@@ -1,0 +1,49 @@
+{
+  "hero": {
+    "name": "Nizam",
+    "title": "Professional Web Developer & Leader",
+    "desc": "Hai, selamat datang ke portfolio saya."
+  },
+  "about": "Saya seorang pembangun web yang berdedikasi dan berminat mencipta aplikasi moden yang mesra pengguna.",
+  "experience": [
+    {
+      "role": "Web Developer",
+      "company": "Syarikat ABC",
+      "year": "2022 - Kini",
+      "desc": "Membangunkan dan menyelenggara laman web syarikat menggunakan HTML, CSS, dan JavaScript."
+    }
+  ],
+  "education": [
+    {
+      "course": "Ijazah Sarjana Muda Sains Komputer",
+      "place": "Universiti Contoh",
+      "year": "2017 - 2020",
+      "desc": "Pengkhususan dalam Pembangunan Perisian. CGPA: 3.8"
+    }
+  ],
+  "skills": ["HTML5", "CSS3", "JavaScript", "React", "Python", "Git"],
+  "leadership": [
+    {
+      "role": "Ketua Projek",
+      "place": "Kelab Komputer Universiti",
+      "year": "2019 - 2020",
+      "desc": "Memimpin pasukan 5 orang dalam menganjurkan bengkel pengekodan."
+    }
+  ],
+  "projects": [
+    {
+      "title": "Sistem E-Dagang",
+      "desc": "Platform jual beli dalam talian dengan sistem pembayaran.",
+      "link": "#"
+    },
+    {
+      "title": "Aplikasi Cuaca",
+      "desc": "Aplikasi ringkas menggunakan API untuk memaparkan cuaca.",
+      "link": "#"
+    }
+  ],
+  "achievements": [
+    "Juara Hackathon Nasional 2021",
+    "Anugerah Pelajar Terbaik Fakulti Sains Komputer (2020)"
+  ]
+}

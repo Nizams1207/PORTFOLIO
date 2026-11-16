@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* CSS khas untuk Admin */
+        .admin-container { max-width: 800px; margin: 50px auto; padding: 20px; }
+        .admin-form { display: flex; flex-direction: column; gap: 15px; }
+        textarea { width: 100%; height: 150px; background: #12121e; color: #fff; padding: 10px; border: 1px solid #333; border-radius: 8px; font-family: monospace; }
+        .btn-save { background: #00e0ff; color: #000; padding: 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 16px; }
+        .btn-save:hover { background: #7c5cff; color: #fff; }
+        .note { background: rgba(255, 165, 0, 0.1); border-left: 4px solid orange; padding: 15px; margin-bottom: 20px; color: #ccc; }
+    </style>
+</head>
+<body>
+
+    <div class="admin-container">
+        <h1 style="color: #00e0ff; margin-bottom: 20px;">🛠️ Developer Dashboard</h1>
+        
+        <div class="note">
+            <strong>Cara Guna:</strong> Edit data dalam kotak di bawah (format JSON), kemudian klik <b>Simpan (Local)</b> untuk tengok perubahan secara terus pada browser anda. Untuk update ke GitHub Pages, copy kod yang dijana dan paste ke dalam fail <code>data.json</code> dalam VS Code.
+        </div>
+
+        <div class="admin-form">
+            <label style="font-weight: bold;">Edit Data Portfolio (JSON):</label>
+            <textarea id="jsonEditor"></textarea>
+            
+            <button class="btn-save" onclick="saveData()">💾 Simpan Data ke Browser</button>
+            <a href="index.html" style="text-align: center; color: #aaa; text-decoration: none; margin-top: 10px;">⬅️ Kembali ke Laman Web</a>
+        </div>
+    </div>
+
+    <script>
+        const editor = document.getElementById('jsonEditor');
+
+        // Ambil data dari Local Storage atau fail data.json asal
+        async function loadData() {
+            let localData = localStorage.getItem('portfolioData');
+            if (localData) {
+                editor.value = localData;
+            } else {
+                // Jika tiada dalam local storage, baca dari fail data.json
+                try {
+                    const res = await fetch('data.json');
+                    const data = await res.json();
+                    editor.value = JSON.stringify(data, null, 4);
+                } catch (e) {
+                    editor.value = "Error: Pastikan fail data.json wujud.";
+                }
+            }
+        }
+
+        function saveData() {
+            try {
+                // Uji sama ada JSON sah (valid) atau tidak
+                JSON.parse(editor.value); 
+                localStorage.setItem('portfolioData', editor.value);
+                alert('✅ Berjaya disimpan ke Browser! Klik "Kembali ke Laman Web" untuk lihat hasilnya.');
+            } catch (e) {
+                alert('❌ Ralat: Format JSON tidak sah. Sila semak ejaan anda.');
+            }
+        }
+
+        loadData();
+    </script>
+</body>
+</html>
