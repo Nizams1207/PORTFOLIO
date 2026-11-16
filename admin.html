@@ -10,7 +10,7 @@
         .admin-header { margin-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; }
         .form-group { margin-bottom: 20px; }
         .form-group label { display: block; margin-bottom: 8px; font-weight: bold; color: var(--text); }
-        .form-group input[type="text"], .form-group textarea, .form-group input[type="file"] {
+        .form-group input[type="text"], .form-group textarea {
             width: 100%; padding: 12px; background: #0a0a12; color: #fff;
             border: 1px solid #333; border-radius: 8px; font-family: inherit; font-size: 14px;
         }
@@ -20,12 +20,6 @@
         .btn-save:hover { background: var(--accent-2); color: #fff; }
         .back-link { display: block; text-align: center; margin-top: 20px; color: var(--muted); text-decoration: none; }
         .back-link:hover { color: var(--accent); }
-        
-        /* Kotak kecil untuk tunjuk preview gambar */
-        .img-preview { width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin-top: 10px; display: none; border: 2px solid var(--accent); }
-        
-        /* Kotak output JSON */
-        .json-output { width: 100%; height: 150px; background: #000; color: #00ff00; padding: 10px; font-family: monospace; margin-top: 20px; display: none; }
     </style>
 </head>
 <body>
@@ -33,17 +27,10 @@
     <div class="admin-container">
         <div class="admin-header">
             <h1 style="color: var(--accent);"><i class="fas fa-edit"></i> Dashboard Admin</h1>
-            <p style="color: var(--muted); font-size: 14px;">Isi maklumat di bawah. Anda kini boleh upload gambar terus dari komputer anda!</p>
+            <p style="color: var(--muted); font-size: 14px;">Taip nama fail gambar yang anda dah simpan di dalam folder <b>images</b>.</p>
         </div>
 
         <form id="portfolioForm">
-            <!-- GAMBAR PROFIL -->
-            <div class="form-group">
-                <label>Gambar Profil</label>
-                <input type="file" id="inputProfileImg" accept="image/*">
-                <img id="previewProfile" class="img-preview" alt="Preview Profil">
-            </div>
-
             <div class="form-group">
                 <label>Nama Anda</label>
                 <input type="text" id="inputName" required>
@@ -53,6 +40,11 @@
                 <input type="text" id="inputTitle" required>
             </div>
             
+            <div class="form-group">
+                <label>Nama Fail Gambar Profil (Cth: profile.jpg)</label>
+                <input type="text" id="inputProfileImg" placeholder="profile.jpg">
+            </div>
+
             <div class="form-group">
                 <label>Tentang Saya (About Me)</label>
                 <textarea id="inputAbout" required></textarea>
@@ -73,16 +65,9 @@
                 <textarea id="inputEdu"></textarea>
             </div>
 
-            <!-- GAMBAR PROJEK -->
             <div class="form-group">
-                <label>Gambar Projek Pertama</label>
-                <input type="file" id="inputProjImg" accept="image/*">
-                <img id="previewProj" class="img-preview" alt="Preview Projek">
-            </div>
-
-            <div class="form-group">
-                <label>Projek (Tajuk | Penerangan | Link)</label>
-                <textarea id="inputProj" placeholder="Sistem E-Dagang | Platform jual beli... | https://link.com"></textarea>
+                <label>Projek (Tajuk | Penerangan | Link | Nama Fail Gambar)</label>
+                <textarea id="inputProj" placeholder="Sistem E-Dagang | Platform jual beli... | https://link.com | projek1.jpg"></textarea>
             </div>
             
             <div class="form-group">
@@ -92,86 +77,31 @@
 
             <button type="submit" class="btn-save">💾 Simpan Maklumat</button>
             <a href="index.html" class="back-link">⬅️ Kembali ke Laman Web</a>
-
-            <!-- Kotak untuk copy JSON -->
-            <textarea id="jsonOutput" class="json-output" readonly></textarea>
         </form>
     </div>
 
     <script>
-        // Fungsi untuk tukar fail gambar jadi teks (Base64)
-        function getBase64(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = error => reject(error);
-            });
-        }
-
-        // Untuk tunjuk preview gambar bila dipilih
-        document.getElementById('inputProfileImg').addEventListener('change', function(e) {
-            if(e.target.files[0]) {
-                let url = URL.createObjectURL(e.target.files[0]);
-                let img = document.getElementById('previewProfile');
-                img.src = url; img.style.display = 'block';
-            }
-        });
-
-        document.getElementById('inputProjImg').addEventListener('change', function(e) {
-            if(e.target.files[0]) {
-                let url = URL.createObjectURL(e.target.files[0]);
-                let img = document.getElementById('previewProj');
-                img.src = url; img.style.display = 'block';
-            }
-        });
-
-        // Bila butang SIMPAN ditekan
-        document.getElementById('portfolioForm').addEventListener('submit', async function(e) {
+        document.getElementById('portfolioForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
-            // Ambil gambar (kalau ada)
-            let profileFile = document.getElementById('inputProfileImg').files[0];
-            let projFile = document.getElementById('inputProjImg').files[0];
-            
-            let profileBase64 = "";
-            let projBase64 = "";
-
-            if (profileFile) profileBase64 = await getBase64(profileFile);
-            if (projFile) projBase64 = await getBase64(projFile);
-
-            // Susun data
             let newData = {
                 hero: {
                     name: document.getElementById('inputName').value,
                     title: document.getElementById('inputTitle').value,
                     desc: "Hai, selamat datang.",
-                    image: profileBase64 // Simpan teks gambar
+                    image: document.getElementById('inputProfileImg').value // Ambil nama fail gambar
                 },
                 about: document.getElementById('inputAbout').value,
                 skills: document.getElementById('inputSkills').value.split(',').map(s => s.trim()),
                 experience: parseFormat(document.getElementById('inputExp').value, ['role', 'company', 'year', 'desc']),
                 education: parseFormat(document.getElementById('inputEdu').value, ['course', 'place', 'year', 'desc']),
-                projects: parseFormat(document.getElementById('inputProj').value, ['title', 'desc', 'link']),
+                projects: parseFormat(document.getElementById('inputProj').value, ['title', 'desc', 'link', 'image']),
                 achievements: document.getElementById('inputAch').value.split('\n').filter(a => a.trim() !== ''),
                 leadership: []
             };
 
-            // Kalau ada gambar projek, masukkan dalam data projek pertama
-            if (newData.projects.length > 0 && projBase64) {
-                newData.projects[0].image = projBase64;
-            }
-
-            // Simpan ke browser
             localStorage.setItem('portfolioData', JSON.stringify(newData));
-            
-            // Tunjuk kotak output JSON
-            let jsonString = JSON.stringify(newData, null, 2);
-            let outputBox = document.getElementById('jsonOutput');
-            outputBox.style.display = 'block';
-            outputBox.value = jsonString;
-            
-            alert('✅ Maklumat disimpan! Sila lihat kotak hitam di bawah untuk dapatkan kod. (Baca arahan di skrin anda).');
+            alert('✅ Maklumat berjaya disimpan! Sila klik "Kembali ke Laman Web".');
         });
 
         function parseFormat(text, keys) {
@@ -182,31 +112,39 @@
             return [obj];
         }
 
-        // Load data sedia ada ke dalam form
         async function loadFormData() {
             let localData = localStorage.getItem('portfolioData');
+            let data;
             if (localData) {
-                let data = JSON.parse(localData);
-                document.getElementById('inputName').value = data.hero.name || "";
-                document.getElementById('inputTitle').value = data.hero.title || "";
-                document.getElementById('inputAbout').value = data.about || "";
-                document.getElementById('inputSkills').value = data.skills ? data.skills.join(', ') : "";
-                
-                if(data.experience && data.experience[0]) {
-                    let exp = data.experience[0];
-                    document.getElementById('inputExp').value = `${exp.role} | ${exp.company} | ${exp.year} | ${exp.desc}`;
-                }
-                if(data.education && data.education[0]) {
-                    let edu = data.education[0];
-                    document.getElementById('inputEdu').value = `${edu.course} | ${edu.place} | ${edu.year} | ${edu.desc}`;
-                }
-                if(data.projects && data.projects[0]) {
-                    let proj = data.projects[0];
-                    document.getElementById('inputProj').value = `${proj.title} | ${proj.desc} | ${proj.link}`;
-                }
-                if(data.achievements) {
-                    document.getElementById('inputAch').value = data.achievements.join('\n');
-                }
+                data = JSON.parse(localData);
+            } else {
+                try {
+                    const res = await fetch('data.json');
+                    data = await res.json();
+                } catch (e) { return; }
+            }
+
+            document.getElementById('inputName').value = data.hero.name || "";
+            document.getElementById('inputTitle').value = data.hero.title || "";
+            document.getElementById('inputProfileImg').value = data.hero.image || "";
+            document.getElementById('inputAbout').value = data.about || "";
+            document.getElementById('inputSkills').value = data.skills ? data.skills.join(', ') : "";
+            
+            if(data.experience && data.experience[0]) {
+                let exp = data.experience[0];
+                document.getElementById('inputExp').value = `${exp.role} | ${exp.company} | ${exp.year} | ${exp.desc}`;
+            }
+            if(data.education && data.education[0]) {
+                let edu = data.education[0];
+                document.getElementById('inputEdu').value = `${edu.course} | ${edu.place} | ${edu.year} | ${edu.desc}`;
+            }
+            if(data.projects && data.projects[0]) {
+                let proj = data.projects[0];
+                let imgName = proj.image ? proj.image : "";
+                document.getElementById('inputProj').value = `${proj.title} | ${proj.desc} | ${proj.link} | ${imgName}`;
+            }
+            if(data.achievements) {
+                document.getElementById('inputAch').value = data.achievements.join('\n');
             }
         }
         loadFormData();
