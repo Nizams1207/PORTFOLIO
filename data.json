@@ -1,8 +1,9 @@
 {
-  "hero": {
-    "name": "Nizam",
-    "title": "Professional Web Developer & Leader",
-    "desc": "Hai, selamat datang ke portfolio saya."
+    "hero": {
+    "name": "Muhammad Syahrul Nizam",
+    "title": "Geospatialist",
+    "desc": "Hai, selamat datang ke portfolio saya.",
+    "image": "profile.jpeg" 
   },
   "about": "Saya seorang pembangun web yang berdedikasi dan berminat mencipta aplikasi moden yang mesra pengguna.",
   "experience": [
