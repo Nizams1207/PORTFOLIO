@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio | Nizam</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome untuk ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
@@ -12,68 +14,150 @@
     <nav class="navbar">
         <div class="logo">Nizam<span>.</span></div>
         <ul class="nav-links">
-            <li><a href="#home">Utama</a></li>
             <li><a href="#about">Tentang</a></li>
-            <li><a href="#projects">Projek</a></li>
+            <li><a href="#resume">Resume</a></li>
+            <li><a href="#experience">Pengalaman</a></li>
+            <li><a href="#education">Pendidikan</a></li>
+            <li><a href="#skills">Kemahiran</a></li>
+            <li><a href="#project">Projek</a></li>
             <li><a href="#contact">Hubungi</a></li>
         </ul>
     </nav>
 
-    <!-- HERO -->
-    <section id="home" class="hero">
+    <!-- HERO / HEADER RINGKAS -->
+    <header class="hero" id="home">
         <div class="hero-content">
-            <p class="hero-tag">👋 Hai, selamat datang</p>
-            <h1>Saya <span class="highlight">Nizam</span></h1>
-            <p class="hero-sub">Web Developer · Designer · Freelancer</p>
+            <h1>Hai, saya <span class="highlight">Nizam</span></h1>
+            <p class="hero-sub">Professional Web Developer & Leader</p>
             <div class="hero-btns">
-                <a href="#projects" class="btn btn-primary">Lihat Projek</a>
-                <a href="#contact" class="btn btn-outline">Hubungi Saya</a>
+                <a href="#project" class="btn btn-primary">Lihat Projek</a>
+                <a href="#resume" class="btn btn-outline">Baca Resume</a>
             </div>
         </div>
         <div class="hero-glow"></div>
+    </header>
+
+    <!-- 1. ABOUT ME -->
+    <section id="about" class="section-container">
+        <h2><i class="fas fa-user"></i> About Me</h2>
+        <div class="card">
+            <p>Saya seorang pembangun web yang berdedikasi dan berminat mencipta aplikasi moden yang mesra pengguna. Saya mempunyai kemahiran dalam membina penyelesaian digital dari awal hingga siap, serta berpengalaman memimpin pasukan kecil untuk mencapai matlamat projek.</p>
+        </div>
     </section>
 
-    <!-- ABOUT -->
-    <section id="about" class="about">
-        <h2>Tentang Saya</h2>
-        <p>Saya seorang pembangun web yang berminat mencipta laman web moden
-           dan mesra pengguna. Berpengalaman dalam HTML, CSS, JavaScript & Python.</p>
+    <!-- 2. RESUME -->
+    <section id="resume" class="section-container">
+        <h2><i class="fas fa-file-alt"></i> Resume</h2>
+        <div class="card" style="text-align: center;">
+            <p>Muat turun resume penuh saya untuk maklumat lebih terperinci.</p>
+            <br>
+            <a href="#" class="btn btn-primary" download>Muat Turun PDF (Contoh)</a>
+        </div>
     </section>
 
-    <!-- PROJECTS -->
-    <section id="projects" class="projects">
-        <h2>Projek Saya</h2>
-        <div class="project-grid">
-            <div class="project-card">
-                <div class="project-thumb">🚀</div>
-                <h3>Nama Projek 1</h3>
-                <p>Penerangan ringkas projek pertama anda.</p>
-                <a href="#" class="project-link">Lihat →</a>
+    <!-- 3. WORK EXPERIENCE -->
+    <section id="experience" class="section-container">
+        <h2><i class="fas fa-briefcase"></i> Work Experience</h2>
+        <div class="timeline">
+            <div class="timeline-item card">
+                <h3>Web Developer</h3>
+                <p class="company">Syarikat ABC | 2022 - Kini</p>
+                <p>Membangunkan dan menyelenggara laman web syarikat menggunakan HTML, CSS, JavaScript, dan React. Bekerjasama dengan pasukan reka bentuk untuk memastikan UI/UX yang terbaik.</p>
             </div>
-            <div class="project-card">
-                <div class="project-thumb">💡</div>
-                <h3>Nama Projek 2</h3>
-                <p>Penerangan ringkas projek kedua anda.</p>
-                <a href="#" class="project-link">Lihat →</a>
-            </div>
-            <div class="project-card">
-                <div class="project-thumb">🎨</div>
-                <h3>Nama Projek 3</h3>
-                <p>Penerangan ringkas projek ketiga anda.</p>
-                <a href="#" class="project-link">Lihat →</a>
+            <div class="timeline-item card">
+                <h3>Junior Developer</h3>
+                <p class="company">Syarikat XYZ | 2020 - 2022</p>
+                <p>Membantu dalam pembangunan sistem dalaman dan membaiki pepijat (bugs). Mempelajari asas pengurusan pangkalan data dan API.</p>
             </div>
         </div>
     </section>
 
-    <!-- CONTACT -->
-    <section id="contact" class="contact">
-        <h2>Hubungi Saya</h2>
-        <p>Email: <a href="mailto:emailanda@gmail.com">emailanda@gmail.com</a></p>
-        <p>GitHub: <a href="https://github.com/Nizams1207" target="_blank">github.com/Nizams1207</a></p>
+    <!-- 4. EDUCATION & CERTIFICATIONS -->
+    <section id="education" class="section-container">
+        <h2><i class="fas fa-graduation-cap"></i> Education & Certifications</h2>
+        <div class="project-grid">
+            <div class="card">
+                <h3>Ijazah Sarjana Muda Sains Komputer</h3>
+                <p class="company">Universiti Contoh | 2017 - 2020</p>
+                <p>Pengkhususan dalam Pembangunan Perisian. CGPA: 3.8</p>
+            </div>
+            <div class="card">
+                <h3>Sijil Profesional</h3>
+                <p class="company">Google / Coursera</p>
+                <p>Google IT Automation with Python (2023)</p>
+            </div>
+        </div>
     </section>
 
-    <footer>
-        <p>© 2025 Nizam. Dibina dengan ❤️</p>
+    <!-- 5. SKILLS -->
+    <section id="skills" class="section-container">
+        <h2><i class="fas fa-code"></i> Skills</h2>
+        <div class="skills-grid">
+            <div class="skill-card card"><i class="fab fa-html5" style="color: #e34f26;"></i> <br>HTML5</div>
+            <div class="skill-card card"><i class="fab fa-css3-alt" style="color: #264de4;"></i> <br>CSS3</div>
+            <div class="skill-card card"><i class="fab fa-js" style="color: #f7df1e;"></i> <br>JavaScript</div>
+            <div class="skill-card card"><i class="fab fa-react" style="color: #61dbfb;"></i> <br>React</div>
+            <div class="skill-card card"><i class="fab fa-python" style="color: #4b8bbe;"></i> <br>Python</div>
+            <div class="skill-card card"><i class="fab fa-github"></i> <br>Git / GitHub</div>
+        </div>
+    </section>
+
+    <!-- 6. LEADERSHIP EXPERIENCE -->
+    <section id="leadership" class="section-container">
+        <h2><i class="fas fa-users"></i> Leadership Experience</h2>
+        <div class="card">
+            <h3>Ketua Projek (Project Lead)</h3>
+            <p class="company">Kelab Komputer Universiti | 2019 - 2020</p>
+            <p>Memimpin pasukan 5 orang dalam menganjurkan bengkel pengekodan untuk pelajar baru. Berjaya menguruskan jadual projek dan memastikan semua modul disiapkan mengikut masa.</p>
+        </div>
+    </section>
+
+    <!-- 7. PROJECT -->
+    <section id="project" class="section-container">
+        <h2><i class="fas fa-laptop-code"></i> Project</h2>
+        <div class="project-grid">
+            <div class="project-card card">
+                <div class="project-thumb">🚀</div>
+                <h3>Sistem E-Dagang</h3>
+                <p>Platform jual beli dalam talian dengan sistem pembayaran dan pengurusan stok.</p>
+                <a href="#" class="project-link">Lihat Repo →</a>
+            </div>
+            <div class="project-card card">
+                <div class="project-thumb">📱</div>
+                <h3>Aplikasi Cuaca</h3>
+                <p>Aplikasi ringkas menggunakan API untuk memaparkan cuaca semasa di Malaysia.</p>
+                <a href="#" class="project-link">Lihat Repo →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. MAP SAMPLE (LOKASI) -->
+    <section id="map" class="section-container">
+        <h2><i class="fas fa-map-marker-alt"></i> Location (Map Sample)</h2>
+        <div class="card" style="padding: 0; overflow: hidden;">
+            <!-- Anda boleh tukar src ini dengan embed Google Maps anda sendiri -->
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127482.23870623512!2d101.61658496729274!3d3.1390037416725324!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31cc362abd72d483%3A0x3032e97b1b8362e2!2sKuala%20Lumpur%2C%20Federal%20Territory%20of%20Kuala%20Lumpur!5e0!3m2!1sen!2smy!4v1700000000000!5m2!1sen!2smy" width="100%" height="350" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </section>
+
+    <!-- 9. ACHIEVEMENT -->
+    <section id="achievement" class="section-container">
+        <h2><i class="fas fa-trophy"></i> Achievement</h2>
+        <div class="card">
+            <ul class="achievement-list">
+                <li><i class="fas fa-award highlight"></i> <strong>Juara Hackathon Nasional 2021</strong> - Membangunkan aplikasi kitar semula dalam masa 48 jam.</li>
+                <li><i class="fas fa-award highlight"></i> <strong>Anugerah Pelajar Terbaik</strong> - Fakulti Sains Komputer (2020).</li>
+                <li><i class="fas fa-award highlight"></i> <strong>Top 10 Finalist</strong> - Pertandingan Inovasi Digital ASEAN (2019).</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- FOOTER / CONTACT -->
+    <footer id="contact">
+        <h2>Hubungi Saya</h2>
+        <p>Email: <a href="mailto:emailanda@gmail.com">emailanda@gmail.com</a> | GitHub: <a href="https://github.com/Nizams1207" target="_blank">Nizams1207</a></p>
+        <br>
+        <p>© 2025 Nizam. Hak Cipta Terpelihara.</p>
     </footer>
 
     <script src="script.js"></script>
